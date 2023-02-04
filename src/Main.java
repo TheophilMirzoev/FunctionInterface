@@ -5,18 +5,14 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public class Main {
-    public static void main(String[] args)
-    {
-        Predicate <Integer> predicate = x -> x > 0;
+    public static void main(String[] args) {
+        Predicate<Integer> predicate = x -> x > 0;
         System.out.println(predicate.test(5));
 
         Predicate<Integer> predicate1 = new Predicate<Integer>() {
             @Override
             public boolean test(Integer integer) {
-                if (integer >= 0) {
-                    return true;
-                } else
-                    return false;
+                return integer > 0;
             }
         };
 
@@ -48,7 +44,7 @@ public class Main {
         Supplier<Integer> supplier = new Supplier<Integer>() {
             @Override
             public Integer get() {
-               Random random = new Random();
+                Random random = new Random();
                 int i = random.nextInt(100);
                 return i;
             }
@@ -64,11 +60,17 @@ public class Main {
 
     }
 
-    public static <T, U> Function<T, U> ternaryOperator(Predicate<? super T> condition,
+    public static <T, U> Function<T, U> ternaryOperator(Predicate<Integer> condition,
                                                         Function<? super T, ? extends U> ifTrue,
-                                                        Function<? super T, ? extends U> ifFalse){
-          if (condition.equals(true) ){
-              return (Function<T, U>) ifTrue;
-          }else return (Function<T, U>) ifFalse;
+                                                        Function<? super T, ? extends U> ifFalse) {
+        condition = x -> true;
+        {
+            Function<? super T, ? extends U> function = ifTrue;
+        }
+        condition = x -> false;
+        {
+            Function<? super T, ? extends U> function = ifFalse;
+        }
+        return null;
     }
 }
