@@ -58,19 +58,32 @@ public class Main {
         };
         System.out.println(supplier1.get());
 
+        ternaryOperator(x -> x > 0, x -> x.longValue(), x -> x.doubleValue());
+
     }
 
+
+
     public static <T, U> Function<T, U> ternaryOperator(Predicate<Integer> condition,
-                                                        Function<? super T, ? extends U> ifTrue,
-                                                        Function<? super T, ? extends U> ifFalse) {
-        condition = x -> true;
-        {
-            Function<? super T, ? extends U> function = ifTrue;
+                                                        Function<Integer, Long> ifTrue,
+                                                        Function<Integer, Double> ifFalse) {
+        if (condition.equals(true)) {
+            return (Function<T, U>) new Function<Integer, Long>()  {
+                @Override
+                public Long apply(Integer integer) {
+                    return null;
+                }
+            };
         }
-        condition = x -> false;
-        {
-            Function<? super T, ? extends U> function = ifFalse;
+        if ((condition.equals(false))) {
+            return (Function<T, U>) new Function<Integer, Double>()  {
+                @Override
+                public Double apply(Integer integer) {
+                    return null;
+                }
+            };
         }
         return null;
     }
 }
+
