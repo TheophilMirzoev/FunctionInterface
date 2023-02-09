@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 public class Main {
     public static void main(String[] args) {
         Predicate<Integer> predicate = x -> x > 0;
-        System.out.println(predicate.test(5));
+        //System.out.println(predicate.test(5));
 
         Predicate<Integer> predicate1 = new Predicate<Integer>() {
             @Override
@@ -16,7 +16,7 @@ public class Main {
             }
         };
 
-        System.out.println(predicate1.test(-2));
+        //System.out.println(predicate1.test(-2));
 
         Consumer<String> consumer = new Consumer<String>() {
             @Override
@@ -36,10 +36,11 @@ public class Main {
                 return i;
             }
         };
-        System.out.println(function.apply(5.8d));
+       // System.out.println(function.apply(5.8d));
 
         Function<Double, Long> function1 = x -> x.longValue();
-        System.out.println(function1.apply(6.8d));
+        //System.out.println(function1.apply(6.8d));
+        Function<Long, Double> function2 = x -> x.doubleValue();
 
         Supplier<Integer> supplier = new Supplier<Integer>() {
             @Override
@@ -49,41 +50,40 @@ public class Main {
                 return i;
             }
         };
-        System.out.println(supplier.get());
+        //System.out.println(supplier.get());
 
         Supplier<Integer> supplier1 = () -> {
             Random random = new Random();
             int i = random.nextInt(100);
             return i;
         };
-        System.out.println(supplier1.get());
+       // System.out.println(supplier1.get());
 
-        ternaryOperator(x -> x > 0, x -> x.longValue(), x -> x.doubleValue());
+        Predicate <Integer> integerPredicate = x -> x > 0;
+        Function<Integer, Double> integerDoubleFunction = x -> x.doubleValue();
+        Function<Integer, Long> integerLongFunction = x -> x.longValue();
+
+
+        ternaryOperator(predicate, integerDoubleFunction, integerLongFunction);
+
 
     }
 
-
-
-    public static <T, U> Function<T, U> ternaryOperator(Predicate<Integer> condition,
-                                                        Function<Integer, Long> ifTrue,
-                                                        Function<Integer, Double> ifFalse) {
-        if (condition.equals(true)) {
-            return (Function<T, U>) new Function<Integer, Long>()  {
-                @Override
-                public Long apply(Integer integer) {
-                    return null;
-                }
-            };
-        }
-        if ((condition.equals(false))) {
-            return (Function<T, U>) new Function<Integer, Double>()  {
-                @Override
-                public Double apply(Integer integer) {
-                    return null;
-                }
-            };
-        }
-        return null;
-    }
+    public static <T, U> Function<T, U> ternaryOperator(
+            Predicate<? super T> condition,
+            Function<? super T, ? extends U> ifTrue,
+            Function<? super T, ? extends U> ifFalse) {
+        return new Function<T, U>() {
+            U u;
+            @Override
+            public U apply(T t) {
+                if (condition.test(t)) {
+                    u = ifTrue.apply(t);
+                }else u = ifFalse.apply(t);
+                System.out.println(u);
+                return  u;
+            }
+    };
 }
 
+}
